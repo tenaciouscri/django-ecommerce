@@ -33,8 +33,6 @@ def add_cart(request, product_id):
             cart=cart,
         )
         cart_item.save()
-    return HttpResponse(cart_item.product)
-    exit()
     return redirect("cart")
 
 
