@@ -4,7 +4,7 @@ from store.models import Product, Variation
 
 
 class Cart(models.Model):
-    cart_id = models.CharField(max_length=250, blank=True)
+    cart_id = models.CharField(max_length=250, null=True)
     date_added = models.DateField(auto_now_add=True)
 
     def __str__(self):
