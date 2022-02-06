@@ -74,10 +74,13 @@ def login(request):
 
         if user is not None:
             try:
+                # If user added items to cart before logging in, they'll be
+                # assigned to that cart once they log in
                 cart = Cart.objects.get(cart_id=_cart_id(request))
                 cart_item_exists = CartItem.objects.filter(cart=cart).exists()
                 if cart_item_exists:
                     cart_item = CartItem.objects.filter(cart=cart)
+
                     for item in cart_item:
                         item.user = user
                         item.save()
