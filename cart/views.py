@@ -10,7 +10,7 @@ from .models import Cart, CartItem
 def _cart_id(request):
     cart = request.session.session_key
     if not cart:
-        cart = request.session.session_key
+        cart = request.session.create()
     return cart
 
 

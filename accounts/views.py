@@ -28,7 +28,6 @@ def register(request):
             email = form.cleaned_data["email"]
             password = form.cleaned_data["password"]
             username = email.split("@")[0]
-
             user = Account.objects.create_user(
                 first_name=first_name,
                 last_name=last_name,
@@ -58,7 +57,6 @@ def register(request):
             return redirect("/accounts/login/?command=verification&email=" + email)
     else:
         form = RegistrationForm()
-
     context = {
         "form": form,
     }
@@ -75,7 +73,7 @@ def login(request):
         if user is not None:
             try:
                 # If user added items to cart before logging in, they'll be
-                # assigned to that cart once they log in
+                # assigned to them
                 cart = Cart.objects.get(cart_id=_cart_id(request))
                 cart_item_exists = CartItem.objects.filter(cart=cart).exists()
                 if cart_item_exists:

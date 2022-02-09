@@ -10,16 +10,14 @@ urlpatterns = [
     path("", views.dashboard, name="dashboard"),
     path(
         "activate/<uidb64>/<token>/", views.activate, name="activate"
-    ),  # User activation
+    ),  # Account activation
     path(
         "forgotPassword/", views.forgotPassword, name="forgotPassword"
-    ),  # Forgot password
+    ),  # Forgotten password
     path(
         "resetpassword_validate/<uidb64>/<token>/",
         views.resetpassword_validate,
         name="resetpassword_validate",
-    ),  # Password reset landing page
-    path(
-        "resetPassword/", views.resetPassword, name="resetPassword"
-    ),  # Password reset page
+    ),  # Reset password landing page
+    path("resetPassword/", views.resetPassword, name="resetPassword"),  # Password reset
 ]
