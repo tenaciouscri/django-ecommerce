@@ -43,6 +43,13 @@ def payments(request):
         orderproduct.ordered = True
         orderproduct.save()
 
+        # Take variation of that specific cart item
+        cart_item = CartItem.objects.get(id=item.id)
+        product_variation = cart_item.variations.all()
+        orderproduct = OrderProduct.objects.get(id=orderproduct.id)
+        orderproduct.variations.set(product_variation)
+        orderproduct.save()
+
     # Reduce quantity of the products in stock
 
     # Clear cart
@@ -75,7 +82,7 @@ def place_order(request, total=0, quantity=0):
     if request.method == "POST":
         form = OrderForm(request.POST)
         if form.is_valid():
-            # Store all the billing information inside the Order table
+            # Store all the billing information inside Order table
             data = Order()
             data.user = current_user
             data.first_name = form.cleaned_data["first_name"]
