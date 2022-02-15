@@ -1,10 +1,12 @@
 from datetime import datetime
+from math import prod
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 import datetime
 import json
 
 from cart.models import CartItem
+from store.models import Product
 from .models import Order, OrderProduct, Payment
 from .forms import OrderForm
 
@@ -50,9 +52,13 @@ def payments(request):
         orderproduct.variations.set(product_variation)
         orderproduct.save()
 
-    # Reduce quantity of the products in stock
+        # Reduce quantity of the products in stock
+        product = Product.objects.get(id=item.product_id)
+        product.stock -= item.quantity
+        product.save()
 
     # Clear cart
+    CartItem.objects.filter(user=request.user).delete()
 
     # Send order received email to customer
 
