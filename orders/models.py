@@ -36,7 +36,7 @@ class Order(models.Model):
     address_line_1 = models.CharField(max_length=50)
     address_line_2 = models.CharField(max_length=50, blank=True)
     country = models.CharField(max_length=50)
-    state = models.CharField(max_length=50, blank=True)
+    state = models.CharField(max_length=50)
     city = models.CharField(max_length=50)
     order_note = models.CharField(max_length=100, blank=True)
     order_total = models.FloatField()
@@ -51,7 +51,7 @@ class Order(models.Model):
         return f"{self.first_name} {self.last_name}"
 
     def full_address(self):
-        return f"{self.address_line_1}, {self.address_line_2}"
+        return f"{self.address_line_1} {self.address_line_2}"
 
     def __str__(self):
         return self.first_name
@@ -64,9 +64,7 @@ class OrderProduct(models.Model):
     )
     user = models.ForeignKey(Account, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    variation = models.ForeignKey(Variation, on_delete=models.CASCADE)
-    color = models.CharField(max_length=50)
-    size = models.CharField(max_length=50)
+    variation = models.ManyToManyField(Variation, blank=True)
     quantity = models.IntegerField()
     product_price = models.FloatField()
     ordered = models.BooleanField(default=False)
@@ -74,4 +72,4 @@ class OrderProduct(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.product
+        return self.product.product_name
