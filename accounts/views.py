@@ -1,5 +1,5 @@
 from itertools import product
-from django.http import HttpResponse
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
@@ -244,3 +244,13 @@ def resetPassword(request):
     # if method is not post, reload template
     else:
         return render(request, "accounts/resetPassword.html")
+
+
+def my_orders(request):
+    orders = Order.objects.filter(user=request.user, is_ordered=True).order_by(
+        "-created_on"
+    )
+    context = {
+        "orders": orders,
+    }
+    return render(request, "accounts/my_orders.html", context)

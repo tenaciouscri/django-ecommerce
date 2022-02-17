@@ -20,4 +20,5 @@ urlpatterns = [
         name="resetpassword_validate",
     ),  # Reset password landing page
     path("resetPassword/", views.resetPassword, name="resetPassword"),  # Password reset
+    path("my_orders/", views.my_orders, name="my_orders"),
 ]
