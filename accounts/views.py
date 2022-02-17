@@ -8,7 +8,7 @@ from .forms import RegistrationForm
 from .models import Account, UserProfile
 from cart.models import Cart, CartItem
 from cart.views import _cart_id
-from orders.models import Order
+from orders.models import Order, OrderProduct
 import requests
 
 # Verification email
@@ -310,3 +310,18 @@ def change_password(request):
             messages.error(request, "Password does not match.")
             return redirect("change_password")
     return render(request, "accounts/change_password.html")
+
+
+@login_required(login_url="login")
+def order_detail(request, order_id):
+    order_detail = OrderProduct.objects.filter(order__order_number=order_id)
+    order = Order.objects.get(order_number=order_id)
+    subtotal = 0
+    for i in order_detail:
+        subtotal += i.product_price * i.quantity
+    context = {
+        "order_detail": order_detail,
+        "order": order,
+        "subtotal": subtotal,
+    }
+    return render(request, "accounts/order_detail.html", context)
