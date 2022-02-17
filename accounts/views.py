@@ -9,6 +9,7 @@ from .forms import RegistrationForm
 from .models import Account
 from cart.models import Cart, CartItem
 from cart.views import _cart_id
+from orders.models import Order
 import requests
 
 # Verification email
@@ -164,7 +165,14 @@ def activate(request, uidb64, token):
 
 @login_required(login_url="login")
 def dashboard(request):
-    return render(request, "accounts/dashboard.html")
+    orders = Order.objects.order_by("-created_on").filter(
+        user_id=request.user.id, is_ordered=True
+    )
+    orders_count = orders.count()
+    context = {
+        "orders_count": orders_count,
+    }
+    return render(request, "accounts/dashboard.html", context)
 
 
 def forgotPassword(request):
