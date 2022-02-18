@@ -52,6 +52,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django_session_timeout.middleware.SessionTimeoutMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -159,6 +160,15 @@ EMAIL_HOST_USER = config("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool)
 
+# SESSION EXPIRATION IN SECONDS
+SESSION_EXPIRE_SECONDS = 3600  # 1 hour
+
+# By default, the session will expire X seconds after the start of the session.
+# To expire the session X seconds after the last activity, use the following setting:
+SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
+
+# Session timeout redirect
+SESSION_TIMEOUT_REDIRECT = "accounts/login"
 
 # Importing local settings
 # try:
